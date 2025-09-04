@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .delete-btn {
+      background-color: rgb(172, 125, 125);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .delete-btn:hover {
+      background-color: rgb(0, 0, 0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h2>Expense Tracker</h2>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="add_expenses.html">Add Expense</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+  </nav>
+
+  <!-- Main container -->
+  <div class="container">
+    <h2>Welcome</h2>
+    <p>Here you can view all your expenses.</p>
+
+    <!-- Expenses Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function renderExpenses() {
+      let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      let tableBody = document.getElementById("expenseTableBody");
+      tableBody.innerHTML = "";
+
+      if (expenses.length === 0) {
+        tableBody.innerHTML = "<tr><td colspan='5'>No expenses added yet.</td></tr>";
+      } else {
+        expenses.forEach((exp, index) => {
+          let row = `<tr>
+            <td>${exp.date}</td>
+            <td>${exp.category}</td>
+            <td>${exp.description}</td>
+            <td>₹${exp.amount}</td>
+            <td><button class="delete-btn" onclick="deleteExpense(${index})">Delete</button></td>
+          </tr>`;
+          tableBody.innerHTML += row;
+        });
+      }
+    }
+
+    function deleteExpense(index) {
+      let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      expenses.splice(index, 1); // remove the expense
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      renderExpenses(); // re-render table
+    }
+
+    // Load on page start
+    window.onload = renderExpenses;
+  </script>
+
+</body>
+</html>

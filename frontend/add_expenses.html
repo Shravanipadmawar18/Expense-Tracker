@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Expense</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h2>Expense Tracker</h2>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="add_expenses.html">Add Expense</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+  </nav>
+
+  <!-- Form Container -->
+  <div class="container">
+    <h2>Add New Expense</h2>
+    <form id="expenseForm">
+      <label>Date:</label>
+      <input type="date" id="date" required><br><br>
+
+      <label>Category:</label>
+      <input type="text" id="category" placeholder="e.g. Food, Transport" required><br><br>
+
+      <label>Description:</label>
+      <input type="text" id="description" placeholder="Description" required><br><br>
+
+      <label>Amount:</label>
+      <input type="number" id="amount" placeholder="Amount" required><br><br>
+
+      <button type="submit">Add Expense</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("expenseForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let expense = {
+        date: document.getElementById("date").value,
+        category: document.getElementById("category").value,
+        description: document.getElementById("description").value,
+        amount: document.getElementById("amount").value
+      };
+
+      // Get existing expenses or empty array
+      let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      expenses.push(expense);
+
+      // Save back to localStorage
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+
+      alert("Expense added!");
+      window.location.href = "index.html"; // Redirect back to dashboard
+    });
+  </script>
+
+</body>
+</html>

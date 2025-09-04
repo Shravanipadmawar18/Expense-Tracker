@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h2>Expense Tracker</h2>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="add_expenses.html">Add Expense</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+  </nav>
+
+  <!-- Main container -->
+  <div class="container">
+    <h2>Create an Account</h2>
+    <form id="signupForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required>
+
+      <button type="submit">Signup</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // prevent page reload
+
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+
+      // Get existing users or create an empty array
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Check if email already exists
+      let userExists = users.find(user => user.email === email);
+      if (userExists) {
+        alert("Email already registered! Please login.");
+        return;
+      }
+
+      // Save new user
+      users.push({ name, email, password });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Signup successful! You can now login.");
+      window.location.href = "login.html"; // redirect to login page
+    });
+  </script>
+
+</body>
+</html>
